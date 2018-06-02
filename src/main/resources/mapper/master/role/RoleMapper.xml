@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgp.dao.master.role.RoleDao">
+    <parameterMap id="Role" type="com.lgp.entity.role.Role"/>
+    <resultMap id="BaseResultMap" type="com.lgp.entity.role.Role">
+        <result column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_flag" property="roleFlag"/>
+        <result column="created_time" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, role_name, role_flag
+	</sql>
+    <select id="listRole" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        r.id as id, r.role_name as role_name, r.role_flag as role_flag, r.created_time as createTime
+        from user_role ur
+        left join role r on ur.role_id = r.id
+        where ur.user_id = #{userId, jdbcType=INTEGER}
+    </select>
+</mapper>

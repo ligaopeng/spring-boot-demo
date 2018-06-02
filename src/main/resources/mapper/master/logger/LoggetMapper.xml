@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgp.dao.master.logger.LoggerDao">
+    <parameterMap id="LoggerEntity" type="com.lgp.entity.logger.LoggerEntity"/>
+    <resultMap id="BaseResultMap" type="com.lgp.entity.logger.LoggerEntity">
+        <result column="ali_id" property="id" />
+        <result column="ali_client_ip" property="clientIp" />
+        <result column="ali_uri" property="uri"/>
+        <result column="ali_type" property="type" />
+        <result column="ali_method" property="method"/>
+        <result column="ali_param_data" property="paramData" />
+        <result column="ali_session_id" property="sessionId"/>
+        <result column="ali_time" property="time" />
+        <result column="ali_return_time" property="returnTime"/>
+        <result column="ali_return_data" property="returnData" />
+        <result column="ali_http_status_code" property="httpStatusCode"/>
+        <result column="ali_time_consuming" property="timeConsuming"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		ali_id, ali_client_ip, ali_uri, ali_type, ali_method, ali_param_data, ali_session_id,
+		 ali_time, ali_return_time,  ali_return_data, ali_http_status_code, ali_time_consuming
+	</sql>
+    <insert id="saveLogger" parameterType="com.lgp.entity.logger.LoggerEntity">
+        insert into t_logger_infos
+        (ali_client_ip, ali_uri, ali_type, ali_method, ali_param_data, ali_session_id,
+		 ali_time, ali_return_time,  ali_return_data, ali_http_status_code, ali_time_consuming)
+        values (#{clientIp, jdbcType=VARCHAR}, #{uri, jdbcType=VARCHAR}, #{type, jdbcType=VARCHAR}, #{method, jdbcType=VARCHAR},
+        #{paramData, jdbcType=VARCHAR}, #{sessionId, jdbcType=VARCHAR}, #{time, jdbcType=VARCHAR},#{returnTime, jdbcType=VARCHAR},
+        #{returnData, jdbcType=VARCHAR}, #{httpStatusCode, jdbcType=VARCHAR}, #{timeConsuming, jdbcType=VARCHAR})
+    </insert>
+    <select id="listLogger" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_logger_infos
+    </select>
+</mapper>
