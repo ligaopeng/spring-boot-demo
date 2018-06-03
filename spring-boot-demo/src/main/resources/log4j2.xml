@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，
+     你会看到log4j2内部各种详细输出。可以设置成OFF(关闭) 或 Error(只输出错误信息)。
+     1800s 刷新此配置
+-->
+<configuration status="OFF" monitorInterval="1800">
+    <!--日志文件目录、压缩文件目录、日志格式配置-->
+    <properties>
+        <property name="LOG_HOME">/Users/ligaopeng/Myapp/logs</property>
+        <property name="FILE_NAME">SpringBoot</property>
+        <!-- 项目统一日志输出格式-控制台 -->
+        <property name="lOG_BACK_CONSOLE_PATTERN"
+                  value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{user}] %highlight{%p} %style{%logger}{Normal,cyan} :%L %style{->}{yellow} %msg%n"/>
+        <!-- 项目统一日志输出格式-文本 -->
+        <property name="lOG_BACK_FILE_PATTERN"
+                  value="[%d{yyyy-MM-dd HH:mm:ss}] [%thread] [%X{user}] {%p} %logger{50} :%L -> %msg%n"/>
+    </properties>
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--只接受程序中DEBUG级别的日志进行处理-->
+            <!--<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>-->
+            <PatternLayout pattern="${lOG_BACK_CONSOLE_PATTERN}"/>
+        </Console>
+
+        <!--处理DEBUG级别的日志，并把该日志放到logs/debug.log文件中-->
+        <!--打印出DEBUG级别日志，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFileDebug" fileName="${LOG_HOME}/${FILE_NAME}-debug.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-debug-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="DEBUG"/>
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout
+                    pattern="${lOG_BACK_FILE_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+                <!-- 归档每天的文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <!--处理INFO级别的日志，并把该日志放到logs/info.log文件中-->
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/${FILE_NAME}-info.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-info-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <!--只接受INFO级别的日志，其余的全部拒绝处理-->
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout
+                    pattern="${lOG_BACK_FILE_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+                <!-- 归档每天的文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <!-- 限制每天文件个数 -->
+            <DefaultRolloverStrategy compressionLevel="0" max="50"/>
+        </RollingFile>
+
+        <!--处理WARN级别的日志，并把该日志放到logs/warn.log文件中-->
+        <RollingFile name="RollingFileWarn" fileName="${LOG_HOME}/${FILE_NAME}-warn.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-warn-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="WARN"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="${lOG_BACK_FILE_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+                <!-- 归档每天的文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <!-- 限制每天文件个数 -->
+            <DefaultRolloverStrategy compressionLevel="0" max="50"/>
+        </RollingFile>
+
+        <!--处理error级别的日志，并把该日志放到logs/error.log文件中-->
+        <RollingFile name="RollingFileError" fileName="${LOG_HOME}/${FILE_NAME}-error.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-error-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="${lOG_BACK_FILE_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+                <!-- 归档每天的文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <!-- 限制每天文件个数 -->
+            <DefaultRolloverStrategy compressionLevel="0" max="50"/>
+        </RollingFile>
+
+        <!--druid的日志记录追加器-->
+        <RollingFile name="druidSqlRollingFile" fileName="${LOG_HOME}/${FILE_NAME}-druid-sql.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-api-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${lOG_BACK_FILE_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+                <!-- 归档每天的文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <!-- 限制每天文件个数 -->
+            <DefaultRolloverStrategy compressionLevel="0" max="50"/>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <AsyncLogger name="AsyncLogger" level="DEBUG" includeLocation="true">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+            <appender-ref ref="RollingFileDebug"/>
+        </AsyncLogger>
+        <asyncRoot level="DEBUG" includeLocation="true">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+            <appender-ref ref="RollingFileDebug"/>
+        </asyncRoot>
+        <!--记录druid-sql的记录-->
+        <logger name="com.alibaba.druid.sql" level="DEBUG" additivity="false">
+            <appender-ref ref="druidSqlRollingFile"/>
+        </logger>
+        <!--log4j2 自带过滤日志-->
+        <Logger name="org.apache.catalina.util.LifecycleBase" level="error"/>
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn"/>
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn"/>
+        <Logger name="org.hibernate.validator.internal.util.Version" level="warn"/>
+        <logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
+        <logger name="org.thymeleaf" level="warn"/>
+        <logger name="io.netty" level="INFO"/>
+        <logger name="com.zaxxer.hikari" level="INFO"/>
+        <logger name="org.mongodb.driver.cluster" level="INFO"/>
+        <logger name="io.lettuce.core.protocol" level="INFO"/>
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="com.alibaba.druid" level="INFO"/>
+        <logger name="druid.sql" level="INFO"></logger>
+        <logger name="org.mybatis.spring" level="INFO"/>
+        <logger name="jdbc.sqlonly" level="INFO"/>
+        <logger name="jdbc.sqltiming" level="ERROR"/>
+        <logger name="jdbc.audit" level="OFF"/>
+        <logger name="jdbc.resultset" level="OFF"/>
+        <logger name="jdbc.resultsettable" level="OFF"/>
+        <logger name="jdbc.connection" level="OFF"/>
+        <logger name="log4jdbc.debug" level="OFF"/>
+        <logger name="com.lgp.dao" level="INFO"/>
+        <logger name="RocketmqClient" level="OFF"/>
+        <logger name="springfox" level="INFO"/>
+    </loggers>
+</configuration>

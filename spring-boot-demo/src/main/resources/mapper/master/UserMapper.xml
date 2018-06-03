@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgp.dao.master.user.UserDao">
+    <parameterMap id="User" type="com.lgp.entity.user.User"/>
+    <resultMap id="BaseResultMap" type="com.lgp.entity.user.User">
+        <result column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="pwd" property="pwd"/>
+        <result column="created_time" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, login_name, pwd,created_time
+    </sql>
+    <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id, jdbcType=INTEGER}
+    </select>
+    <insert id="saveUser" parameterType="com.lgp.entity.user.User" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        user (id, login_name) values (#{id, jdbcType=INTEGER}, #{loginName, jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from user where id =#{id, jdbcType=INTEGER}
+    </delete>
+    <select id="listUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+    </select>
+    <select id="getUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from USER
+        where login_name = #{username, jdbcType=VARCHAR}
+    </select>
+</mapper>
