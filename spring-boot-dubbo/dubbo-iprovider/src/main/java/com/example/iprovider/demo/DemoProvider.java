@@ -1,6 +1,7 @@
 package com.example.iprovider.demo;
 
 
+import com.alibaba.dubbo.validation.MethodValidated;
 import com.example.dto.demo.DemoDTO;
 
 import java.util.List;
@@ -15,7 +16,11 @@ public interface DemoProvider {
 
     DemoDTO getDemoDTO(Integer id);
 
+    @MethodValidated(Save.class)
     DemoDTO save(DemoDTO demoDTO);
 
     List<DemoDTO> listDemoDTO();
+
+    @interface Save {}
+
 }

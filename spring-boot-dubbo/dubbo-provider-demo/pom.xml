@@ -62,6 +62,7 @@
             <groupId>com.alibaba.boot</groupId>
             <artifactId>dubbo-spring-boot-actuator</artifactId>
         </dependency>
+        <!--接口，DTO-->
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>dubbo-iprovider</artifactId>

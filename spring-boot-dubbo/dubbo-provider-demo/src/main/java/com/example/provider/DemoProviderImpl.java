@@ -15,7 +15,7 @@ import java.util.List;
  * @author lgp
  * @create 2018-06-04 21:23
  */
-@Service(version = "${demo.provider.version}", registry = "${dubbo.registry.id}")
+@Service(version = "${demo.provider.version}", registry = "${dubbo.registry.id}", protocol = "${dubbo.protocol.id}")
 public class DemoProviderImpl implements DemoProvider {
 
 

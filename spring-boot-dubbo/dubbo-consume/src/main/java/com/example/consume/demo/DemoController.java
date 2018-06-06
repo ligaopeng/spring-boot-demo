@@ -3,6 +3,7 @@ package com.example.consume.demo;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.example.dto.demo.DemoDTO;
 import com.example.iprovider.demo.DemoProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author lgp
  * @create 2018-06-04 21:47
  */
+@Slf4j
 @RestController
 public class DemoController {
 
@@ -34,7 +36,12 @@ public class DemoController {
 
     @PostMapping(value = "saveDemoDTO")
     public DemoDTO saveDemoDTO(@RequestBody DemoDTO demoDTO) {
-        DemoDTO newDemoDTO = demoProvider.save(demoDTO);
+        DemoDTO newDemoDTO = null;
+        try {
+            newDemoDTO = demoProvider.save(demoDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return newDemoDTO;
     }
 
