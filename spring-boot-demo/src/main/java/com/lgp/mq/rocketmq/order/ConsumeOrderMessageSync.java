@@ -18,9 +18,13 @@ import org.springframework.stereotype.Component;
 public class ConsumeOrderMessageSync implements RocketMQListener<String> {
 
     @Override
-    public void onMessage(String message) throws InterruptedException {
+    public void onMessage(String message) {
         log.info("######## consume sync_send_message: {}", message);
-        Thread.sleep(10000L);
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("######## consume sync ########");
     }
 }
