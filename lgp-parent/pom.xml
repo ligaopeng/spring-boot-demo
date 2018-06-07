@@ -26,6 +26,7 @@
         <zookeeper.version>3.4.9</zookeeper.version>
         <org.mapstruct.version>1.2.0.CR1</org.mapstruct.version>
         <el.version>3.0.0</el.version>
+        <javassist.versiom>3.21.0-GA</javassist.versiom>
         <commons-io.version>2.5</commons-io.version>
         <springfox-swagger2.version>2.7.0</springfox-swagger2.version>
         <pinyin4j.version>2.5.1</pinyin4j.version>
@@ -169,6 +170,11 @@
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.versiom}</version>
             </dependency>
             <!--rocketMQ-->
             <dependency>
