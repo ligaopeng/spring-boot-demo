@@ -23,17 +23,28 @@
         <druid>1.1.9</druid>
         <easypoi.version>3.2.0</easypoi.version>
         <dubbo.version>0.2.0-SNAPSHOT</dubbo.version>
+        <zookeeper.version>3.4.9</zookeeper.version>
         <org.mapstruct.version>1.2.0.CR1</org.mapstruct.version>
-        <spring-boot-starter-rocketmq-version>1.0.0-RELEASE</spring-boot-starter-rocketmq-version>
+        <el.version>3.0.0</el.version>
+        <commons-io.version>2.5</commons-io.version>
+        <springfox-swagger2.version>2.7.0</springfox-swagger2.version>
+        <pinyin4j.version>2.5.1</pinyin4j.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
+        <jackson-annotations.version>2.9.0.pr4</jackson-annotations.version>
+        <spring-boot-starter-rocketmq-version>1.1.0-release</spring-boot-starter-rocketmq-version>
+        <log4jdbc-log4j2-jdbc4.version>1.16</log4jdbc-log4j2-jdbc4.version>
+        <disruptor.version>3.3.6</disruptor.version>
+        <jjwt.version>0.7.0</jjwt.version>
         <spring-security-oauth.version>2.0.13.RELEASE</spring-security-oauth.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
         <compiler-plugin.version>3.7.0</compiler-plugin.version>
         <resources-plugin.version>3.0.2</resources-plugin.version>
         <release-plugin.version>2.5.3</release-plugin.version>
         <dependency-plugin.version>3.0.2</dependency-plugin.version>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -72,7 +83,7 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
-                <version>0.7.0</version>
+                <version>${jjwt.version}</version>
             </dependency>
             <!--fastjson依赖-->
             <dependency>
@@ -80,13 +91,7 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjosn}</version>
             </dependency>
-            <!-- Log4j2 异步支持 -->
-            <dependency>
-                <groupId>com.lmax</groupId>
-                <artifactId>disruptor</artifactId>
-                <version>3.3.6</version>
-            </dependency>
-            <!--mapStruct依赖-->
+            <!--mapStruct依赖, DTO\VO\POJO互转-->
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-jdk8</artifactId>
@@ -107,9 +112,15 @@
             <dependency>
                 <groupId>org.bgee.log4jdbc-log4j2</groupId>
                 <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
-                <version>1.16</version>
+                <version>${log4jdbc-log4j2-jdbc4.version}</version>
             </dependency>
-            <!--easy poi-->
+            <!-- Log4j2 异步支持 -->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+            <!--easy poi excel导出、导入-->
             <dependency>
                 <groupId>cn.afterturn</groupId>
                 <artifactId>easypoi-annotation</artifactId>
@@ -129,45 +140,43 @@
             <dependency>
                 <groupId>cn.afterturn</groupId>
                 <artifactId>easypoi</artifactId>
-                <version>3.2.0</version>
+                <version>${easypoi.version}</version>
                 <type>pom</type>
             </dependency>
             <!--swagger2.x-->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
-                <version>2.7.0</version>
+                <version>${springfox-swagger2.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
-                <version>2.7.0</version>
+                <version>${springfox-swagger2.version}</version>
             </dependency>
             <!--其它-->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.5</version>
-                <scope>compile</scope>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.belerweb</groupId>
                 <artifactId>pinyin4j</artifactId>
-                <version>2.5.1</version>
-                <scope>compile</scope>
+                <version>${pinyin4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
-                <version>1.9.3</version>
-                <scope>compile</scope>
+                <version>${commons-beanutils.version}</version>
             </dependency>
             <!--rocketMQ-->
             <dependency>
                 <groupId>com.qianmi</groupId>
                 <artifactId>spring-boot-starter-rocketmq</artifactId>
-                <version>1.1.0-release</version>
+                <version>${spring-boot-starter-rocketmq-version}</version>
             </dependency>
+            <!--dubbo-->
             <dependency>
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -177,6 +186,28 @@
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>dubbo-spring-boot-actuator</artifactId>
                 <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+            </dependency>
+            <!--参数校验-->
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>${el.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
+            </dependency>
+            <!--序列化注解-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-annotations.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -204,6 +235,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
